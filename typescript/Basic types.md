@@ -1,14 +1,14 @@
 ### Basic types
 
- There are several types of typescript, some of them are familiar with javascript like `Boolean` `Number` `String` `Array` , just all typed.
+ There are several types of typescript, some of them are familiar with javascript like `Boolean` `Number` `String` `Array`  `null` `undefined` just all typed.
 
 #### New types
 
-### Tuple
+#### Tuple
 
 Tuple is a array that with it's quantity and type already defined, you should strictly comply it's statement.
 
-######  Enum
+#### Enum
 
 `enum Color {Red, Green, Blue}` 
 
@@ -29,4 +29,36 @@ One diffrence between Unknown and Any is that Unknown can infer its type with `t
 #### Any
 
  Famous note: anyscript.
+
+#### Void 
+
+When function has no return value.
+
+#### Never
+never reach
+```javascript
+function error(message: string): never {
+    throw new Error(message);
+}
+```
+refer to never
+```javascript
+function fail() {
+    return error("Something failed");
+}
+```
+cannot to the end
+```javascript
+function infiniteLoop(): never {
+    while (true) {
+    }
+}
+```
+
+
+
+
+
+
+
 
