@@ -6,7 +6,7 @@
 
 #### Tuple
 
-Tuple is a array that with it's quantity and type already defined, you should strictly comply it's statement.
+Tuple is a array that with its quantity and type already defined, you should strictly comply its statement.
 
 #### Enum
 
@@ -16,7 +16,7 @@ It's like a Object type width default value from zero, also you can define a sta
 
 `enum Color {Red = 1, Green, Blue}` In this case, Green = 2 and Blue = 3
 
-You can use value to find it's key, like this
+You can use value to find its key, like this
 
 `Color[2] === 'Green'`
 
