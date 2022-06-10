@@ -3,3 +3,4 @@ solve viriables duplicate error
 
 dynamic compile ts file
 ` tsc --watch `
+
