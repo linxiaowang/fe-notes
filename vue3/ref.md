@@ -6,6 +6,7 @@
 判断数据是否为 ref 类型
 
 ### shallowRef
+注意：ref会触发shallowRef的视图更新
 ```javascript
 let message = shallowRef({
   name: 'nihao'
