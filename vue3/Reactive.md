@@ -46,6 +46,8 @@ setTimeout(() => {
 const person = reactive({count: 1})
 const copy = readonly(person)
 
+copy.count++ // warning: balabala
+
 ```
 
 ### shallowReactive
