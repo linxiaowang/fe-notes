@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const zh = require('./zh.js');
-console.log(typeof zh);
 const existKeys = Object.keys(zh)
 let filePath =  path.resolve(__dirname);
 
