@@ -1,59 +1,64 @@
+/* eslint-disable */
 const fs = require('fs');
 const path = require('path');
-const zh = require('./zh.js');
-const existKeys = Object.keys(zh)
-let filePath =  path.resolve(__dirname);
+const en = require('./src/i18n/lang/en.js');
+const onlineEn = require('./src/i18n/lang/online.js');
+const existKeys = Object.keys(Object.assign(en, onlineEn));
+let filePath =  path.resolve(__dirname, 'src');
+console.log('filePath', filePath);
+console.log('existKeys', existKeys);
+// scanFolder('filePath');
 
-scanFolder(filePath);
+const strings = [];
+function processFile(file) {
+  const fileContent = fs.readFileSync(file, 'utf-8');
+  const matches = fileContent.match(/(?<=\$t\(').*?(?='\))/g);
 
+  if (matches) {
+    strings.push(...matches);
+  }
+}
 
-function scanFolder(dirPath){
-  fs.readdir(dirPath, (err, files) => {
-    if (err) {
-      console.log(err);
-      return;
+function processDirectory(dir) {
+  fs.readdirSync(dir).forEach((file) => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.isFile()) {
+      processFile(filePath);
+    } else if (stat.isDirectory()) {
+      processDirectory(filePath);
     }
-    files.forEach(file => {
-      const filePath = path.join(dirPath, file);
-      fs.stat(filePath, (err, stats) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        if (stats.isFile()) {
-          fs.readFile(filePath, 'utf8', (err, data) => {
-            if (err) {
-              console.log(err);
-              return;
-            }
-            const result = getString(data);
-            if (result) {
-              printResult = result.filter(item => {
-                return existKeys.indexOf(item) === -1;
-              });
-              fs.writeFile('result.txt', printResult, (err) => {
-                if (err) {
-                  console.log(err);
-                  return;
-                }
-                console.log('写入成功');
-              });
-            }
-              console.log(result);
-          });
-        } else {
-          scanFolder(filePath);
-        }
-      });
-    });
   });
 }
 
-
-function getString(str){
-  const reg = /(?<=\$t\(').*?(?='\))/g;
-  const result = str.match(reg);
-  if (result) {
-    return result;
-  }
+function uniqResult(arr){
+  return arr.filter(item=>{
+    return !existKeys.includes(item)
+  })
 }
+
+// processDirectory(filePath);
+// const result = [...new Set(uniqResult(strings))]
+// fs.writeFileSync('result.txt', result.join('\n'));
+// console.log(`${result.length} strings have been written to result.txt.`);
+
+function getUniqResult(){
+  const content = fs.readFileSync('result.txt', 'utf-8');
+  const strings = content.split('\n');
+  const uniqueStrings = [...new Set(strings)];
+  console.log(uniqueStrings);
+  
+fs.writeFileSync('uniqResult.txt', uniqueStrings.join('\n'));
+  console.log(`${uniqueStrings.length} unique strings have been written to uniqResult.txt.`)
+}
+
+getUniqResult()
+
+// function getString(str){
+//   const reg = /(?<=\$t\(').*?(?='\))/g;
+//   const result = str.match(reg);
+//   if (result) {
+//     return result;
+//   }
+// }
